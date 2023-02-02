@@ -2,6 +2,8 @@
 This repo makes pinata sdk easier to use.
 
 ## Environments Setting
+Visit the [Pinata API Keys](https://app.pinata.cloud/keys) page to generate new keys.
+
 ```sh
 cd pinata-script
 cp .env.example .env
