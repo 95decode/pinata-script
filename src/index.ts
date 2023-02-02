@@ -26,11 +26,13 @@ const main = async () => {
             break;
         case "unpin":
             process.argv.length == 4
-            ? unpin(process.argv[3])
+            ? console.log(await unpin(process.argv[3]))
             : console.log("Invalid arguments")
             break;
         default:
-            console.log("Invalid function");
+            process.argv.length < 3
+            ? console.log("Insufficient arguments")
+            : console.log("Invalid function")
     }
 }
 

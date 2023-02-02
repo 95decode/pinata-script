@@ -93,12 +93,16 @@ export const pinDir = async (path: string) => {
 
 export const unpin = async (cid: string) => {
     try {
+        const result = await pinata.unpin(cid);
+
         logger.info({
             message: {
                 function: "unPin",
-                result: await pinata.unpin(cid)
+                result: result
             }
         });
+
+        return result;
     } catch (error) {
         logger.error({
             message: {
