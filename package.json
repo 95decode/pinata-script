@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "pinata script repo using typescript",
   "scripts": {
-    "test": "npx ts-node src"
+    "start": "npx ts-node src"
   },
   "repository": {
     "type": "git",

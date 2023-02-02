@@ -1,101 +1,37 @@
-import { PinataPinOptions } from "@pinata/sdk";
-import { createReadStream, ReadStream } from "fs";
-import { logger } from "./utils/logger";
-import { pinata } from "./utils/pinata";
+import { 
+    auth, 
+    pinDir, 
+    pinFile, 
+    unpin 
+ } from "./utils/pinata";
 
-//example
-//const sourcepath = "./assets";
-//const filename = "test.json";
-//const filestream = createReadStream("./assets/test.json");
-//const cid = "QM...";
-
-const auth = async () => {
-    const result = (await pinata.testAuthentication()).authenticated;
-    
-    if(!result) logger.error({
-        message: {
-            function: "auth",
-            result: "Authentication error"
-        }
-    });
-
-    return result;
-}
-
-const pinFile = async (path: string, filename: string) => {
-    let filestream: ReadStream;
-
+const main = async () => {
     try {
-        filestream = createReadStream(`${path}/${filename}`);
+        await auth()
     } catch (error) {
-        logger.error({
-            message: {
-                function: "pinFile",
-                result: error
-            }
-        });
-
+        console.log("Authentication error", error);
         return;
     }
 
-    const options: PinataPinOptions = {
-        pinataMetadata: {
-            name: filename
-        },
-        pinataOptions: {
-            cidVersion: 0
-        }
-    }
-    
-    try {
-        logger.info({
-            message: {
-                function: "pinFile",
-                result: await pinata.pinFileToIPFS(filestream, options)
-            }
-        });
-    } catch (error) {
-        logger.error({
-            message: {
-                function: "pinFile",
-                result: error
-            }
-        });
+    switch(process.argv[2]) {
+        case "pinFile":
+            process.argv.length == 5
+            ? console.log(await pinFile(process.argv[3], process.argv[4]))
+            : console.log("Invalid arguments")
+            break;
+        case "pinDir":
+            process.argv.length == 4
+            ? console.log(await pinDir(process.argv[3]))
+            : console.log("Invalid arguments")
+            break;
+        case "unpin":
+            process.argv.length == 4
+            ? unpin(process.argv[3])
+            : console.log("Invalid arguments")
+            break;
+        default:
+            console.log("Invalid function");
     }
 }
 
-const pinDir = async (path: string) => {
-    try {
-        logger.info({
-            message: {
-                function: "pinDir",
-                result: await pinata.pinFromFS(path)
-            }
-        });
-    } catch (error) {
-        logger.error({
-            message: {
-                function: "pinDir",
-                result: error
-            }
-        });
-    }
-}
-
-const unPin = async (cid: string) => {
-    try {
-        logger.info({
-            message: {
-                function: "unPin",
-                result: await pinata.unpin(cid)
-            }
-        });
-    } catch (error) {
-        logger.error({
-            message: {
-                function: "unPin",
-                result: error
-            }
-        });
-    }
-}
+main();
