@@ -97,7 +97,7 @@ export const unpin = async (cid: string) => {
 
         logger.info({
             message: {
-                function: "unPin",
+                function: "unpin",
                 result: result
             }
         });
@@ -106,7 +106,7 @@ export const unpin = async (cid: string) => {
     } catch (error) {
         logger.error({
             message: {
-                function: "unPin",
+                function: "unpin",
                 result: error
             }
         });
