@@ -98,7 +98,8 @@ export const unpin = async (cid: string) => {
         logger.info({
             message: {
                 function: "unpin",
-                result: result
+                result: result,
+                "IpfsHash": cid
             }
         });
 
@@ -107,7 +108,8 @@ export const unpin = async (cid: string) => {
         logger.error({
             message: {
                 function: "unpin",
-                result: error
+                result: error,
+                "IpfsHash": cid
             }
         });
     }
